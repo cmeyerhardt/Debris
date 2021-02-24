@@ -24749,24 +24749,6 @@ Transform:
   m_Father: {fileID: 278469741}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!1 &1374256658 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 8461823459408909979, guid: 73f20a6eca4434d4dbc34c0145898e5d,
-    type: 3}
-  m_PrefabInstance: {fileID: 230935834}
-  m_PrefabAsset: {fileID: 0}
---- !u!114 &1374256659
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1374256658}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 391d1418290a8d84dad3421a63d8078b, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &1381761472
 GameObject:
   m_ObjectHideFlags: 0
@@ -28020,7 +28002,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cf2a9e469f9798646916f79b9ac41d92, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  progressionInterval: 30
+  progressionInterval: 25
   pauseBreakText: {fileID: 1072384809}
   doingGreatText: {fileID: 1277131565}
   doingOkText: {fileID: 271493395}
