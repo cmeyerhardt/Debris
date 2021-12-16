@@ -47,7 +47,7 @@ public class FallingObject : ClickForPoints
     {
         if (Time.timeScale < 1f) { return; }
 
-        if (passive)
+        if (passive || Input.GetKeyDown(KeyCode.Space))
         {
             SuccessfullyClick();
         }
