@@ -260,7 +260,6 @@ MonoBehaviour:
     defaultPitchValue: 1
     maxPitchValue: 3
     useVector3Zero: 0
-    playOneShot: 0
   onDisableAudioClipBlock:
     label: 
     audioClip: []
@@ -270,7 +269,6 @@ MonoBehaviour:
     defaultPitchValue: 1
     maxPitchValue: 3
     useVector3Zero: 0
-    playOneShot: 0
   audioClipBlocks:
   - label: BecomeMetallic
     audioClip:
@@ -281,7 +279,6 @@ MonoBehaviour:
     defaultPitchValue: 1
     maxPitchValue: 3
     useVector3Zero: 0
-    playOneShot: 0
   - label: Impact surface
     audioClip:
     - {fileID: 8300000, guid: b6bf51e5f597a9146ab96ad4daca7ae9, type: 3}
@@ -293,7 +290,6 @@ MonoBehaviour:
     defaultPitchValue: 1
     maxPitchValue: 3
     useVector3Zero: 0
-    playOneShot: 0
   - label: Impact wood
     audioClip:
     - {fileID: 8300000, guid: b597c6c9c4acf614784130642cf5e4ec, type: 3}
@@ -304,7 +300,6 @@ MonoBehaviour:
     defaultPitchValue: 1
     maxPitchValue: 3
     useVector3Zero: 0
-    playOneShot: 0
   - label: ImpactMetal
     audioClip:
     - {fileID: 8300000, guid: 817dcb10c6315a74d819271e7bceb8ba, type: 3}
@@ -314,7 +309,6 @@ MonoBehaviour:
     defaultPitchValue: 1
     maxPitchValue: 3
     useVector3Zero: 0
-    playOneShot: 0
   - label: ObstacleImpact
     audioClip:
     - {fileID: 8300000, guid: 0a35e33468cd85e4886e14dfbc5189b4, type: 3}
@@ -324,7 +318,7 @@ MonoBehaviour:
     defaultPitchValue: 0.75
     maxPitchValue: 3
     useVector3Zero: 0
-    playOneShot: 0
+  audioSource: {fileID: 6222295915150721517}
 --- !u!82 &6222295915150721517
 AudioSource:
   m_ObjectHideFlags: 0
@@ -382,7 +376,7 @@ AudioSource:
     m_Curve:
     - serializedVersion: 3
       time: 0
-      value: 0
+      value: 0.5
       inSlope: 0
       outSlope: 0
       tangentMode: 0

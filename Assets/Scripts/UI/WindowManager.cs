@@ -131,7 +131,7 @@ public class WindowManager : MonoBehaviour
 
     public void CloseWindow(Window windowToClose, bool doEvent/*, bool recover = false*/)
     {
-        Debug.Log("CloseWindow:" + windowToClose);
+        //Debug.Log("CloseWindow:" + windowToClose);
         if (windowToClose == null/* || (!openWindows.Contains(windowToClose) && !windowsToReEnable.Contains(windowToClose))*/)
                 { return; }
         if(doEvent)

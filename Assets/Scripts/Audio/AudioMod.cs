@@ -21,23 +21,24 @@ public class AudioMod : MonoBehaviour
     [SerializeField] AudioClipBlock onEnableAudioClipBlock = null;
     [SerializeField] AudioClipBlock onDisableAudioClipBlock = null;
     [SerializeField] AudioClipBlock[] audioClipBlocks = null;
+    [SerializeField] AudioSource audioSource = null;
 
-    Queue<int> recentlyPlayed = new Queue<int>();
+    //Queue<int> recentlyPlayed = new Queue<int>();
 
-    List<GameObject> playing = new List<GameObject>();
+    //List<GameObject> playing = new List<GameObject>();
 
-    //private void Awake()
-    //{
-    //    audioSource = GetComponent<AudioSource>();
-    //    if (audioSource == null && audioClipBlocks.Length > 0)
-    //    {
-    //        audioSource = gameObject.AddComponent<AudioSource>();
-    //    }
-    //    if(audioSource != null)
-    //    {
-    //        audioSource.maxDistance = 25f;
-    //    }
-    //}
+    private void Awake()
+    {
+        audioSource = GetComponent<AudioSource>();
+        if (audioSource == null && audioClipBlocks.Length > 0)
+        {
+            audioSource = gameObject.AddComponent<AudioSource>();
+        }
+        if (audioSource != null)
+        {
+            audioSource.maxDistance = 100f;
+        }
+    }
 
     private void OnEnable()
     {
@@ -89,36 +90,26 @@ public class AudioMod : MonoBehaviour
 
                 if (enabled && clip != null)
                 {
-                    //Debug.Log(gameObject.name + " is Playing clip: " + audioSource.clip.name + " at " + (audioBlock.useVector3Zero ? Vector3.zero : transform.position));
-                    //audioSource.volume = audioBlock.maxVolume;
-                    //audioSource.maxDistance = audioBlock.maxVolume * 10f;
-                    //AudioSource.PlayClipAtPoint(audioSource.clip, transform.position);
-                    //Debug.Log(gameObject.name + " Playing audio clip: " + audioBlock.label);
-                    playing.Add(AudioUtilities.PlayClipAtPoint(
-                        (audioBlock.useVector3Zero ? Vector3.zero : transform.position), 
-                        clip, 
-                        pitch,
-                        25f,
-                        audioBlock.maxVolume));
+                    if(audioSource != null)
+                    {
+                        Debug.Log(name + " Playing " + audioBlock.label);
+                        audioSource.clip = clip;
+                        audioSource.pitch = pitch;
+                        audioSource.volume = audioBlock.maxVolume;
+                        audioSource.Play();
+                    }
                     return true;
-                    //if (audioBlock.playOneShot)
-                    //{
-                    //    audioSource.PlayOneShot(audioSource.clip);
-                    //}
-                    //else
-                    //{
-                    //    audioSource.Play();
-                    //}
                 }
             }
         }
         return false;
     }
 
-
+    //unused
     public void PlayAudioClip(string labelName)
     {
         //todo -- this method will be slower than referencing the index directly
+        //can possibly store audioBlock data in a static collection for faster lookups if this method call became commonly used
         for(int i = 0; i < audioClipBlocks.Length; i++)
         {
             if (audioClipBlocks[i].label.ToLower() == labelName.ToLower())
@@ -131,77 +122,25 @@ public class AudioMod : MonoBehaviour
     public void PlayAudioClip(int i)
     {
         if(audioClipBlocks.Length <= 0 || i > audioClipBlocks.Length - 1) { return; }
-        
-        if(!recentlyPlayed.Contains(i))
-        {
-            if(PlayAudio(audioClipBlocks[i]))
-            {
-                recentlyPlayed.Enqueue(i);
-                Invoke("RemoveFromQueue", .1f);
-            }
-            //if (audioClipBlocks[i] != null)
-            //{
-            //    if (audioClipBlocks[i].randomizePitchAmount > 0f)
-            //    {
-            //        float upperLimit = Mathf.Min(audioClipBlocks[i].defaultPitchValue + audioClipBlocks[i].randomizePitchAmount, audioClipBlocks[i].maxPitchValue);
-            //        float lowerLimit = Mathf.Max(audioClipBlocks[i].defaultPitchValue - audioClipBlocks[i].randomizePitchAmount, 0f);
+        PlayAudio(audioClipBlocks[i]);
 
-            //        //randomize pitch by increments * semi-random amount
-            //        if (audioClipBlocks[i].randomizePitchIncrement > 0f)
-            //        {
-            //            float increment = audioClipBlocks[i].randomizePitchAmount * audioClipBlocks[i].randomizePitchIncrement;//audioClipBlocks[i].randomizePitchAmount / audioClipBlocks[i].defaultPitchValue * audioClipBlocks[i].randomizePitchIncrement;
-            //            int maxIncrements = (int)(audioClipBlocks[i].randomizePitchAmount / increment);
-            //            int numIncrements = Random.Range(0, maxIncrements + 1);
-
-            //            audioSource.pitch = Mathf.Clamp(
-            //                audioClipBlocks[i].defaultPitchValue * (1 + (numIncrements * increment)).PlusOrMinus(),
-            //                lowerLimit,
-            //                upperLimit);
-            //        }
-            //        else //randomize pitch within limits
-            //        {
-            //            audioSource.pitch = Mathf.Clamp(
-            //                audioClipBlocks[i].defaultPitchValue + Random.Range(0, audioClipBlocks[i].randomizePitchAmount).PlusOrMinus() / audioSource.pitch,
-            //                lowerLimit,
-            //                upperLimit);
-            //        }
-            //    }
-            //    else
-            //    {
-            //        audioSource.pitch = audioClipBlocks[i].defaultPitchValue;
-            //    }
-
-            //    if(audioClipBlocks[i].audioClip.Length > 0)
-            //    {
-            //        audioSource.clip = audioClipBlocks[i].audioClip[Random.Range(0, audioClipBlocks[i].audioClip.Length)];
-
-            //        if(enabled && audioSource.clip != null)
-            //        {
-
-
-            //            //AudioSource.PlayClipAtPoint(audioSource.clip, transform.position);
-            //            AudioUtilities.PlayClipAtPoint(transform.position, audioSource);
-            //            //if (audioClipBlocks[i].playOneShot)
-            //            //{
-            //            //    audioSource.PlayOneShot(audioSource.clip);
-            //            //}
-            //            //else
-            //            //{
-            //            //    AudioSource.PlayClipAtPoint(audioSource.clip, transform.position);
-            //            //}
-            //        }
-            //    }
-            //}
-        }
-        else
-        {
-            //Debug.Log(gameObject.name + "Audio recently played: " + audioClipBlocks[i].label);
-        }
+        //if (!recentlyPlayed.Contains(i))
+        //{
+        //    if(PlayAudio(audioClipBlocks[i]))
+        //    {
+        //        recentlyPlayed.Enqueue(i);
+        //        Invoke("RemoveFromQueue", .1f);
+        //    }
+        //}
+        //else
+        //{
+        //    //Debug.Log(gameObject.name + "Audio recently played: " + audioClipBlocks[i].label);
+        //}
     }
 
-    private void RemoveFromQueue()
-    {
-        if (recentlyPlayed.Count > 0)
-            recentlyPlayed.Dequeue();
-    }
+    //private void RemoveFromQueue()
+    //{
+    //    if (recentlyPlayed.Count > 0)
+    //        recentlyPlayed.Dequeue();
+    //}
 }
